@@ -53,7 +53,7 @@ realme_gt7_b
 realme_gt7_pro_b
 oppo_find_n2_flip_b
 oppo_find_n3_flip_b
-oppo_reno12_pro_b
+oppo_reno12_pro_mt6985_b
 oppo_k12_b
 oppo_k13_turbo_pro_b
 oppo_reno13f_b
@@ -78,6 +78,7 @@ oppo_reno_15_b
 oppo_pad_5_b
 
 # Android15
+oneplus_nord_n30_se_5g_v
 oneplus_10r_v
 oneplus_nord_3_v
 oneplus_ace_v
@@ -127,7 +128,7 @@ realme_gt7_pro
 oppo_find_n3_flip_v
 oppo_k13_turbo_v
 oppo_k13_turbo_pro_v
-oppo_reno12_pro_u
+oppo_reno12_pro_mt6985_v
 oppo_find_n2_v
 oppo_reno13f_v
 oppo_pad_se_v
@@ -137,7 +138,7 @@ oppo_reno9_pro_plus_v
 oppo_reno10_pro_plus_v
 oppo_reno11_pro_5g_v
 oppo_reno12_5g_v
-oppo_reno12_pro_5g_v
+oppo_reno12_pro_5g_mt6878_v
 oppo_a5_pro_5g_v
 oppo_f29_pro_5g_v
 oppo_reno13_v
@@ -172,7 +173,7 @@ oneplus_ace_race_u
 oneplus_10r_u
 oppo_find_n3_flip_u
 oppo_find_x6_u
-oppo_reno12_pro_u
+oppo_reno12_pro_mt6985_u
 
 # Android13
 oneplus_11_t
