@@ -125,14 +125,15 @@ Prohibit the promotion of forked repositories with **no modifications**; see [LI
  
 - Support setting branches、custom version identifiers、fallback hash.  
 ```
-Set Branch: Change the original `susfs-main` to another `builtin` branch. Please modify according to the channel name in the SukiSU Ultra repository. Do not modify unless you are a developer. Do not leave it empty or remove it.
+Set Branch: Divided into manager-layer and built-in-layer. Please modify according to the channel name in the SukiSU Ultra repository. Do not modify unless you are a developer. Do not leave it empty or remove it.
 Custom Version Tag:
 Replace the original commit hash with your custom content, and move the commit hash to the end. This can be modified freely, but keep it reasonably short.
+The commit hash referred to here is the built-in-layer.
 v3.1.7-f5541e21@builtin
 ↓
 v3.1.7-CustomContent@builtin[f5541e21]
-If you don’t want to use a custom version tag, just leave it empty (e.g. susfs-main/).
-Regardless of whether the custom version identifier and fallback hash are enabled, they must be separated by two /(U+002F) and cannot be removed
+If you don’t want to use a custom version tag, just leave it empty (e.g. builtin/).
+Regardless of whether the custom version identifier and fallback hash are enabled, they must be separated by three /(U+002F) and cannot be removed.
 ```  
  
 - Fully automated retrieval of kernel information and build information.  
@@ -155,8 +156,6 @@ When there is a kernel-level update or a significant slowdown caused by changes 
 ```  
  
 - First to support for the kernel version `6.6+` new `setlocalversion` format using `echo`, fixing the issue where custom and randomly-generated pseudo-official suffixes were not applied. Now, this feature is fully supported across all device models and build methods.  
- 
-- Add `TRUSTY_EXISTS` to automatically detect whether the `6.6` kernel has defects in the kernel source code and determine whether `sed` is needed.  
  
 - Fix issues where `ZRAM` is unusable or unable to launch non-system apps.  
  
