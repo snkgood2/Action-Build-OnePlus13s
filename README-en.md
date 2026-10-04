@@ -1,6 +1,6 @@
 **`Enlish`** | [简体中文](README.md)
  
-[![Workflow Status](https://img.shields.io/github/actions/workflow/status/Numbersf/Action-Build/Build%20Kernel%20OnePlus.yml?branch=KernelSU-Next&label=Build&logo=github-actions&style=flat-square)](https://github.com/Numbersf/Action-Build/actions/workflows/Build%20Kernel%20OnePlus.yml?query=branch%3AKernelSU-Next)
+[![Workflow Status](https://img.shields.io/github/actions/workflow/status/Numbersf/Action-Build/Build%20Kernel%20OnePlus.yml?branch=KernelSU-Next&label=remote%20build&logo=github-actions&style=flat-square)](https://github.com/Numbersf/Action-Build/actions/workflows/Build%20Kernel%20OnePlus.yml?query=branch%3AKernelSU-Next) ![Downloads](https://img.shields.io/github/downloads/Numbersf/Action-Build/total)
  
 [![Kernel Manifest](https://img.shields.io/badge/Kernel%20Manifest-EB0029?logo=oneplus&logoColor=white&style=flat-square)](https://github.com/OnePlusOSS/kernel_manifest) [![Dynamic Kernel Manifest](https://img.shields.io/badge/Dynamic%20Kernel%20Manifest-EB0029?logo=oneplus&logoColor=white&style=flat-square)](https://github.com/Numbersf/kernel_manifest) [![Kernel Manifest Appendix](https://img.shields.io/badge/Kernel%20Manifest%20Appendix-EB0029?logo=oneplus&logoColor=white&style=flat-square)](https://github.com/Numbersf/Kernel_Manifest_Appendix) [![Fengchi Kernel](https://img.shields.io/badge/Fengchi%20Kernel-EB0029?logo=github&logoColor=white&style=flat-square)](https://github.com/Numbersf/SCHED_PATCH)
  
@@ -9,21 +9,23 @@
 <img align="right" src="pic/zakozako~.svg" width="100px" alt="zakozako~">
  
 # Action-Build
-**```Build Kernels for All OnePlus Devices```**
-> More efficient · More comprehensive · More Faster · More stable
+ 
+<img src="https://readme-typing-svg.demolab.com?font=Meslo+Nerd+Font&size=32&duration=2800&pause=2000&color=A855F7&center=true&vCenter=true&width=940&lines=Welcome+to+Action+Build!;Build+Kernels+For+All+OnePlus+Devices;Your+Device,+Your+Rules!;%E6%9B%B4%E9%AB%98%E6%95%88+%E6%9B%B4%E5%85%A8%E9%9D%A2+%E6%9B%B4%E5%BF%AB%E9%80%9F+%E6%9B%B4%E7%A8%B3%E5%AE%9A+%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96">
  
 Prohibit the promotion of forked repositories with **no modifications**; see [LICENSE](LICENSE)
 <details>
 <summary><strong>Click to view how to fork the project</strong></summary>
-<img src="https://github.com/Numbersf/Action-Build/blob/KernelSU-Next/pic/make.gif" width="500"/>
-<summary>Please note, if you want to use other branch manager projects, make sure to disable 'Copy only the SukiSU Ultra branch' when forking.</summary>
+<p>
+  <img src="https://github.com/Numbersf/Action-Build/blob/KernelSU-Next/pic/start.gif" width="500"/>
+  <img src="https://github.com/Numbersf/Action-Build/blob/KernelSU-Next/pic/start(2).png" width="500"/>
+</p>
+<summary>Please note, if you want to use other branch manager projects, make sure to disable 'Copy the SukiSU-Ultra branch only' when forking.</summary>
 </details>
  
 <details>
 <summary><strong>Click to view how to sync the forked project to the latest</strong></summary>
 <p>
-  <img src="https://github.com/Numbersf/Action-Build/blob/KernelSU-Next/pic/syncfork.png" width="150"/>
-  <img src="https://github.com/Numbersf/Action-Build/blob/KernelSU-Next/pic/syncfork(2).png" width="150"/>
+  <img src="https://github.com/Numbersf/Action-Build/blob/KernelSU-Next/pic/syncfork.png" width="500"/>
 </p>
 <summary>Please sync promptly! Some updates may cause older versions to fail! If it still fails after syncing, delete and fork again! If the issue persists, then submit an issue for feedback.</summary>
 </details>
@@ -38,9 +40,9 @@ Prohibit the promotion of forked repositories with **no modifications**; see [LI
 >
 >>`_？ Android19 (？)`
 >
->>`_？ Android18 (？)`
+>>`_？ Android18 (？)`<strong>
 >
->>`_c Android17 (Cinnamon Bun)`<strong>
+>>`_c Android17 (Cinnamon Bun)`
 >
 >>`_b Android16 (Baklava)`
 >
@@ -60,9 +62,9 @@ Prohibit the promotion of forked repositories with **no modifications**; see [LI
 >
 >|| Average Duration Range|Maximum Duration|
 >|------------------|----------------------|------------|
->| `Ultra-fast build for all devices` | `1st:19min ~ 35min 2nd:9min ~ 19min` | `42min`|
->| `Kernel versions 5.10–5.15 built using official script` | `29min ~ 35min`| `45min`    |
->| `Kernel versions 6.1-6.12 built using official script` | `59min ~ 1h12min`| `1h28min` |
+>| `Ultra-fast build for all devices` | `1st:17min ~ 36min 2nd:6min ~ 17min` | `40/29min`|
+>| `Kernel versions 5.10-5.15 built using official script` | `20min ~ 35min`| `45min`    |
+>| `Kernel versions 6.1-6.12 built using official script` | `55min ~ 1h12min`| `1h28min` |
 >
 > >Using ccache may slow down the first build; this only applies to ultra-fast builds.
 >
@@ -75,27 +77,40 @@ Prohibit the promotion of forked repositories with **no modifications**; see [LI
 >
 > If you have enabled the ``ZRAM`` algorithm, make sure to install the ``ZRAM`` module **before rebooting** after flashing with ``Anykernel3``. You may need to adjust some parameters manually.The 5.10 kernel is not supported ``ZRAM`` , as the ``zram.ko`` module path could not be found.However, the generated ``Anykernel3`` is still usable  
 >
->``MTK`` devices do not support enabling network feature extensions and do not support disabling fast build  
+>``MTK`` devices do not support disabling fast build  
 >
 >``OnePlus Ace5`` does not support enabling Fengchi. Older models cannot use it even if the kernel includes it — do not force it  
->
->``CAll Build Start UP`` is an **extremely dangerous** new workflow.**It has no new features and everything remains default and non-customizable**.This workflow is **strictly prohibited** for regular users and should use ``Build All OnePlus Kernels`` instead!  
 >
  
 ------
  
 # Features in Development
-- [ ] ccache supports AB update mode
+- [ ] Kexec Kernel Hot Swap Support
+- [ ] Full support for all kernel versions of Fengchi
 - Toothpaste should be squeezed bit by bit, GPUs should be cut slice by slice, PPTs should be shown slide by slide, and code should be written line by line — more features and optimizations... stay tuned!
  
 # Changelog
 > Minor updates will be ignored. For more details, please refer to the commit.
  
+- Added `FakeConfig(HideConfig)` to hide the visibility of config options in `proc/config.gz`.  
+```
+Regular config option:
+set_config "CONFIG_IP_NF_TARGET_ECN=y"
+Hidden config option:
+set_hide_config "CONFIG_IP6_NF_NAT=y"
+```  
+ 
+- Added `FakePatch` to improve compatibility between multiple kernel sublevel and `susfs`.  
+ 
+- Added path recursion, providing full support for `Rust` build logic and `bindgen`/`Kleaf` dependency resolution on kernel version `6.12+`.  
+ 
+- `lz4`now automatically follows upstream upgrades and includes automatic error correction.  
+ 
+- Full support for `DroidSpaces`+`Ntsync`.  
+ 
 - Full support for `Re:Kernel`, automatically following upstream changes.  
  
 - Multiple external warnings enabled — checks whether the `fork source` is normal, if the kernel suffix build time contains abnormal symbol calls, etc.  
- 
-- Added multiple variables and automatic search, full adaptation to kernel version `6.12+`'s `Rust` build logic and dependencies.  
  
 - Complete `KPN` patch support.  
  
@@ -109,23 +124,28 @@ Prohibit the promotion of forked repositories with **no modifications**; see [LI
  
 - Supports modifying the `SUSFS` hash for rollback(Entering `-1` in this field will disable `SUSFS`)、Using the `SUSFS-DEV` development branch.  
  
-- For kernel versions `6.6–6.12`, supports replacing the `type` property in the device tree from `HMBIRD_OGKI` to `HMBIRD_GKI`; supports enabling Fengchi Driver[@reigadegr](https://github.com/reigadegr) [@cctv18](https://github.com/cctv18) [@Numbersf](https://github.com/Numbersf) [@HanKuCha](https://github.com/HanKuCha)  
+- For kernel versions `6.6-6.12`, supports replacing the `type` property in the device tree from `HMBIRD_OGKI` to `HMBIRD_GKI`; supports enabling Fengchi Driver[@reigadegr](https://github.com/reigadegr) [@cctv18](https://github.com/cctv18) [@Numbersf](https://github.com/Numbersf) [@HanKuCha](https://github.com/HanKuCha)  
  
 - Allow calling third-party dynamic source manifest repositories to support originally incompatible devices. It is essential to ensure that the naming of the source manifest and channel branches complies with the specifications. In the third-party manifest repository's `README.md`, if `CPUD` is not defined, any placeholder value can be used,the fast build feature must remain enabled and cannot be disabled.  
  
 - Support `Baseband-guard(LSMBBG)`.  
  
+- Support setting branches、custom version identifiers、fallback hash.  
+```
+Set Branch: Divided into manager-layer and built-in-layer. Please modify according to the channel name in the KernelSU Next repository. Do not modify unless you are a developer. Do not leave it empty or remove it.
+The commit hash referred to here is the built-in-layer.
+Here must be separated by two /(U+002F) and cannot be removed.
+```  
+ 
 - Fully automated retrieval of kernel information and build information.  
  
 - Allow modifying `SUBLEVEL`,Used to fix the issue where the device fails to boot after a system update changes the `SUBLEVEL` but the kernel source has not been updated.  
- 
-- Allows running multiple workflows in batches of `9` each time.Ordinary users are prohibited from using.  
  
 - Remove file-map and build method selection; let the main workflow decide automatically [@Bouteillepleine](https://github.com/Bouteillepleine)  
  
 - First to support custom kernel build time `UTS_VERSION` for all device models and all build methods.  
  
-- Use `ccache` to speed up the workflow, only effective when `fast build` is enabled.The cache needs to be regenerated by changing the `key` when using it for the first time or after major updates, which may reduce the speed.
+- Use `ccache-ECS`、`ltothin-cache`、`apt-cache` together to speed up the workflow, only effective when `fast build` is enabled.The cache needs to be regenerated by changing the `key` when using it for the first time or after major updates, which may reduce the speed.
 ```
 You can delete all keys by enabling the "是否删除所有缓存" option in the delete.yml(name: Workflow and Cache Cleanup) workflow.
 You can also go to
@@ -135,8 +155,6 @@ When there is a kernel-level update or a significant slowdown caused by changes 
 ```  
  
 - First to support for the kernel version `6.6+` new `setlocalversion` format using `echo`, fixing the issue where custom and randomly-generated pseudo-official suffixes were not applied. Now, this feature is fully supported across all device models and build methods.  
- 
-- Add `TRUSTY_EXISTS` to automatically detect whether the `6.6` kernel has defects in the kernel source code and determine whether `sed` is needed.  
  
 - Fix issues where `ZRAM` is unusable or unable to launch non-system apps.  
  
@@ -153,11 +171,11 @@ When there is a kernel-level update or a significant slowdown caused by changes 
  
 - Support displaying user-defined inputs during `Debug Show Selected Inputs` step; workflow name will also reflect some values.  
  
-- Removed potential version codes from the suffix of `Anykernel3.zip` config file, replaced with exact `Android` version numbers `XX.X.X`.
+- Removed potential version codes from the suffix of `Anykernel3.zip` config file, replaced with exact `Android` version numbers `XX.X.(X)`.
 ```
-AnyKernel3_KernelSUNext_12896_OnePlusAce2Pro_Android15.0.0_KPM_VFS.zip
-AnyKernel3_KernelSUNext_12896_OnePlus13_Android15.0.2_KPM_VFS.zip
-AnyKernel3_KernelSUNext_12896_OnePlus11_Android14.1.0_KPM_VFS.zip
+AnyKernel3_KernelSUNext_34895_OnePlusAce2Pro_Android16.0.0(5.15.180)_KPM_BBG_ILH_DS_REKER.zip
+AnyKernel3_KernelSUNext_34895_OnePlus11_Android14.1.0(5.15.123)_KPM_BBG_ILH_DS_REKER.zip
+AnyKernel3_KernelSUNext_34895_OnePlus15(AOSP)_Android16.0.0(6.12.23)_KPM_BBG_ILH_DS_REKER.zip
 ```  
  
 - Added support for the `LZ4K、LZ4KD` compression algorithm in the `zram` module.   [@ShirkNeko](https://github.com/ShirkNeko)  
