@@ -655,7 +655,7 @@ jobs:
             chmod +x "$f"
           done
 
-      - name: Add SukiSU Ultra
+ - name: Add SukiSU Ultra
         run: |
           cd kernel_workspace/kernel_platform
           KSU_META="${{ github.event.inputs.KSU_META }}"
@@ -733,6 +733,30 @@ jobs:
           echo "::group::最终 Makefile 中版本信息及部分调试结果预览"
           grep -nE '^(REPO_OWNER|REPO_NAME|REPO_BRANCH|KSU_VERSION_API|KSU_VERSION_FULL|VERSION_TAG|GIT_BIN|CURL_BIN)' kernel/Makefile
           echo "::endgroup::"
+
+      # ==================== 方案 A：修复 Bazel 沙盒中的 arch.h 寻找路径 ====================
+      - name: Fix SukiSU arch.h for Bazel Sandbox
+        run: |
+          cd kernel_workspace/kernel_platform
+          KSU_DIR=$(find . -type d -path "*/drivers/kernelsu" | head -n 1)
+          if [ -n "$KSU_DIR" ]; then
+            echo "找到 SukiSU 源码路径: $KSU_DIR"
+            
+            # 1. 修正 kernel_includes.h，直接指向 arm64/arch.h
+            if [ -f "$KSU_DIR/kernel_includes.h" ]; then
+              sed -i 's/#include "arch.h"/#include "arch\/arm64\/arch.h"/g' "$KSU_DIR/kernel_includes.h"
+              echo "已成功更新 kernel_includes.h"
+            fi
+
+            # 2. 补全 SukiSU 的 Makefile 头文件搜索路径
+            if [ -f "$KSU_DIR/Makefile" ]; then
+              sed -i 's/ccflags-y += -I$(srctree)\/drivers\/kernelsu/ccflags-y += -I$(srctree)\/drivers\/kernelsu -I$(srctree)\/drivers\/kernelsu\/arch\/arm64/g' "$KSU_DIR/Makefile"
+              echo "已成功更新 SukiSU Makefile"
+            fi
+          else
+            echo "警告: 未找到 SukiSU 目录，跳过修复"
+          fi
+      # ==================================================================================
 
       - name: Apply Fake Patches
         if: ${{ github.event.inputs.SUSFS_META != '-1' }}
