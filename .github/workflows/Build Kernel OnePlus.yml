@@ -793,6 +793,14 @@ jobs:
             cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ env.KANDROID_VERSION }}-${{ env.KERNEL_VERSION }}.patch ./common/
             cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
             cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
+
+            # -------------------------------------------------------------
+            # 🛠️ 手动同步最新 susfs.h 及接口声明，解决函数未声明编译报错
+            # -------------------------------------------------------------
+            if [ -f "../susfs4ksu/include/linux/susfs.h" ]; then
+              cp -af ../susfs4ksu/include/linux/susfs.h ./common/include/linux/susfs.h
+              echo "✅ 已成功覆盖同步最新的 susfs.h 头文件"
+            fi
           fi
 
           if [[ "${{ github.event.inputs.ZRAM }}" == 1* ]]; then
@@ -804,6 +812,10 @@ jobs:
           fi
 
           cd ./common
+
+          if [ "${{ github.event.inputs.SUSFS_META }}" != "-1" ]; then
+            kotlin "$GITHUB_WORKSPACE/kernel_workspace/Action-Build/scripts/SusfsCompat.kts" apply "$PWD"
+          fi
 
           if [ "${{ github.event.inputs.SUSFS_META }}" != "-1" ]; then
             kotlin "$GITHUB_WORKSPACE/kernel_workspace/Action-Build/scripts/SusfsCompat.kts" apply "$PWD"
