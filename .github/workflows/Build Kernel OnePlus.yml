@@ -679,86 +679,7 @@ jobs:
             chmod +x "$f"
           done
 
-      - name: Add SukiSU Ultra
-        run: |
-          cd kernel_workspace/kernel_platform
-          KSU_META="${{ github.event.inputs.KSU_META }}"
-
-          # 必须包含两个分隔符（至少四个字段）
-          if [[ "$(grep -o '/' <<< "$KSU_META" | wc -l)" -lt 3 ]]; then
-            echo "错误: KSU_META 参数缺少必要的分隔符 '/'，格式应为: 管理器分支名/内置分支名/自定义标识(可省略)/提交hash(可省略)"
-            exit 10
-          fi
-
-          # 解析字段：分支 / 自定义标识 / 手动 hash
-          IFS='/' read -r KSU_MANAGER_BRANCH KSU_BUILTIN_BRANCH KSU_CUSTOM_TAG MANUAL_HASH <<< "$KSU_META"
-          echo "KSU_MANAGER_BRANCH=$KSU_MANAGER_BRANCH" >> $GITHUB_ENV
-          echo "KSU_BUILTIN_BRANCH=$KSU_BUILTIN_BRANCH" >> $GITHUB_ENV
-          [[ -n "$KSU_CUSTOM_TAG" ]] && echo "自定义版本标识: $KSU_CUSTOM_TAG" || echo "自定义版本标识: 未启用"
-          [[ -n "$MANUAL_HASH" ]] && echo "手动指定 hash: $MANUAL_HASH" || echo "手动指定 hash: 未启用"
-
-          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/${KSU_MANAGER_BRANCH}/kernel/setup.sh" | bash -s "$KSU_BUILTIN_BRANCH"
-          cd ./KernelSU
-
-          # 如果指定了手动 hash，就切换到该提交
-          if [[ -n "$MANUAL_HASH" ]]; then
-            git fetch origin "$KSU_BUILTIN_BRANCH" --depth=50
-            git checkout "$MANUAL_HASH"
-            SHORT_HASH=${MANUAL_HASH:0:8}
-          fi
-
-          KSU_VERSION_TAG=$(curl -fsSL https://api.github.com/repos/SukiSU-Ultra/SukiSU-Ultra/releases/latest \
-            | grep '"tag_name":' | sed -E 's/.*"v?([^"]+)".*/\1/')
-          if [[ -z "$KSU_VERSION_TAG" || "$(printf '%s\n' "$KSU_VERSION_TAG" "3.1.7" | sort -V | head -n1)" != "3.1.7" ]]; then
-            KSU_VERSION_TAG="3.1.7"
-          fi
-          echo "KSU_VERSION_TAG=$KSU_VERSION_TAG" >> $GITHUB_ENV
-
-          GIT_HASH=$(git rev-parse --short HEAD)
-          echo "GIT_HASH=$GIT_HASH"
-
-          # 组装版本号
-          if [[ -n "$MANUAL_HASH" ]]; then
-            USE_HASH="$SHORT_HASH"
-          else
-            USE_HASH="$GIT_HASH"
-          fi
-          if [[ -z "$KSU_CUSTOM_TAG" ]]; then
-            VERSION_FULL="v$KSU_VERSION_TAG-$USE_HASH@$KSU_BUILTIN_BRANCH"
-          else
-            VERSION_FULL="v$KSU_VERSION_TAG-$KSU_CUSTOM_TAG@$KSU_BUILTIN_BRANCH[$USE_HASH]"
-          fi
-
-          ESC_VERSION_FULL=$(printf '%s' "$VERSION_FULL" | sed 's/[&|\\/]/\\&/g')
-          ESC_KSU_VERSION_TAG=$(printf '%s' "$KSU_VERSION_TAG" | sed 's/[&|\\/]/\\&/g')
-
-          if grep -q '^KSU_VERSION_FULL := ' kernel/Makefile; then
-            sed -i "s|^KSU_VERSION_FULL := .*|KSU_VERSION_FULL := $ESC_VERSION_FULL|" kernel/Makefile
-          else
-            awk -v full="$VERSION_FULL" '
-              /^REPO_OWNER :=/ && !done {
-                print
-                print ""
-                print "KSU_VERSION_FULL := " full
-                done=1
-                next
-              }
-              { print }
-            ' kernel/Makefile > kernel/Makefile.tmp && mv kernel/Makefile.tmp kernel/Makefile
-          fi
-
-          if grep -q '^KSU_VERSION_API := ' kernel/Makefile; then
-            sed -i "s|^KSU_VERSION_API := .*|KSU_VERSION_API := $ESC_KSU_VERSION_TAG|" kernel/Makefile
-          fi
-
-          KSU_VERSION=$(expr $(git rev-list --count "$KSU_MANAGER_BRANCH" 2>/dev/null || echo 13000) + 37185)
-          echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
-
-          echo "::group::最终 Makefile 中版本信息及部分调试结果预览"
-          grep -nE '^(REPO_OWNER|REPO_NAME|REPO_BRANCH|KSU_VERSION_API|KSU_VERSION_FULL|VERSION_TAG|GIT_BIN|CURL_BIN)' kernel/Makefile
-          echo "::endgroup::"
-
-      - name: Apply Patches SukiSU Ultra
+- name: Apply Patches SukiSU Ultra
         env:
           FILE: ${{ github.event.inputs.FILE }}
         run: |
@@ -827,7 +748,7 @@ jobs:
             kotlin "$GITHUB_WORKSPACE/kernel_workspace/Action-Build/scripts/SusfsCompat.kts" postfix "$PWD"
             kotlin "$GITHUB_WORKSPACE/kernel_workspace/Action-Build/scripts/SusfsCompat.kts" revert "$PWD"
           fi
-
+          
       # OGKI转换GKI，无需修改 dtbo 开机
       - name: Apply Convert HMBIRD_OGKI to HMBIRD_GKI
         if: ${{ (fromJSON(env.VERSIONLEVEL) > 6 || (fromJSON(env.VERSIONLEVEL) == 6 && fromJSON(env.PATCHLEVEL) >= 6)) && github.event.inputs.SCHED_HMBIRD == 'false' }}
