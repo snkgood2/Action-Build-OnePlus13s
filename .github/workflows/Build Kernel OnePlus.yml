@@ -47,11 +47,8 @@ on:
           - oneplus_nord_ce5_b
           - oneplus_nord_5_b
           - oneplus_ace5_pro_b
-          - oneplus_13
           - oneplus_13_b
-          - oneplus_13t
           - oneplus_13t_b
-          - oneplus_13s
           - oneplus_13s_b
           - oneplus_pad_2_pro_b
           - oneplus_pad_3_b
@@ -830,7 +827,7 @@ jobs:
             kotlin "$GITHUB_WORKSPACE/kernel_workspace/Action-Build/scripts/SusfsCompat.kts" postfix "$PWD"
             kotlin "$GITHUB_WORKSPACE/kernel_workspace/Action-Build/scripts/SusfsCompat.kts" revert "$PWD"
           fi
-          
+
       # OGKI转换GKI，无需修改 dtbo 开机
       - name: Apply Convert HMBIRD_OGKI to HMBIRD_GKI
         if: ${{ (fromJSON(env.VERSIONLEVEL) > 6 || (fromJSON(env.VERSIONLEVEL) == 6 && fromJSON(env.PATCHLEVEL) >= 6)) && github.event.inputs.SCHED_HMBIRD == 'false' }}
